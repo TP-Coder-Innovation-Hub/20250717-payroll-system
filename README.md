@@ -1,26 +1,23 @@
-# Freestyle Practice Idea
+# 🧾 Employee Payroll System
 
-## Detail
+## 📌 Detail
 
-### Business Domain or Category
+### 🏢 Business Domain or Category
 
-[To be defined - specify the industry or domain this project targets]
+**Payroll System**
 
-### Project Description
+### 📝 Project Description
 
-[To be defined - provide a detailed description of what this project aims to accomplish]
+A service for calculating employee payroll at the end of each month.
 
-### Why
+### 🎯 Why
 
-[To be defined - explain the motivation, problem being solved, or opportunity being addressed]
-
-## Overall architecture
-
-[Insert your overall architecture here]
-
-## Possible Architecture
-
-N/A - Come up with your own design
+To reduce human error caused by manual payroll calculations.
 
 ---
-*Template for a freestyle idea. Feel free to explore your proof of concept 😁.*
+
+## 🧱 Overall Architecture
+
+<p align="center">
+  <img src="images/architecture.png" alt="Architecture Diagram" width="600"/>
+</p>
