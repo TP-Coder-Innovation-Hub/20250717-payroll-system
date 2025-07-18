@@ -1,17 +1,16 @@
-# Title
-
-## Status
-
-What is the status, such as proposed, accepted, rejected, deprecated, superseded, etc.?
+# Initial Payroll System
 
 ## Context
-
-What is the issue that we're seeing that is motivating this decision or change?
+Some small companies currently calculate payroll manually, which often leads to human errors and inefficiencies. This manual process is time-consuming and prone to mistakes, impacting payroll accuracy and employee satisfaction. There is a need for a reliable system to automate payroll calculations, reduce errors, and decrease manual workload.
 
 ## Decision
-
-What is the change that we're proposing and/or doing?
+Develop a web application with the following characteristics:
+- Ability to record employee information and base salary
+- Calculate employee payroll based on working days multiplied by base salary
+- Frontend developed using React
+- Backend developed using Java with Spring Boot framework
+- Use PostgreSQL as the database
 
 ## Consequences
-
-What becomes easier or more difficult to do because of this change?
+- Payroll calculation will be more accurate and less error-prone
+- The system will be accessible from various devices, including PCs and mobile phones
