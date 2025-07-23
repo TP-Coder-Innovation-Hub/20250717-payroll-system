@@ -96,4 +96,7 @@ sketch
 
 .idea
 
+# Environment variables
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,maven,react
