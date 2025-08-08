@@ -1,13 +1,14 @@
 package com.mycompany.employee.payroll.service;
 
+import com.mycompany.employee.payroll.service.config.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EmployeePayrollServiceApplicationTests {
+class EmployeePayrollServiceApplicationTests extends AbstractIntegrationTest {
 
-	@Test
-	void contextLoads() {
-	}
+  @Test
+  void contextLoads() {
+  }
 
 }
