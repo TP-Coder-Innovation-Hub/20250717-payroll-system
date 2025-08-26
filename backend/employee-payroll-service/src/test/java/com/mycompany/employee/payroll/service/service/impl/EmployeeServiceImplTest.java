@@ -9,10 +9,11 @@ import com.mycompany.employee.payroll.service.dto.EmployeeDto;
 import com.mycompany.employee.payroll.service.entity.Employee;
 import com.mycompany.employee.payroll.service.entity.Factory;
 import com.mycompany.employee.payroll.service.enums.EmployeeStatusEnum;
+import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.mapper.EmployeeMapper;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
+import java.util.Optional;
 import java.util.UUID;
-import org.hibernate.service.spi.ServiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +47,7 @@ public class EmployeeServiceImplTest {
     var vo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01");
 
     when(employeeMapper.dtoToEntity(dto)).thenReturn(entity);
-    when(factoryDao.findById(factoryId)).thenReturn(factory);
+    when(factoryDao.findById(factoryId)).thenReturn(Optional.of(factory));
     when(employeeMapper.entityToVo(entity)).thenReturn(vo);
 
     // act
@@ -70,10 +71,10 @@ public class EmployeeServiceImplTest {
     var entity = new Employee();
 
     when(employeeMapper.dtoToEntity(dto)).thenReturn(entity);
-    when(factoryDao.findById("invalid-factory-id")).thenReturn(null);
+    when(factoryDao.findById("invalid-factory-id")).thenReturn(Optional.empty());
 
     // Act + Assert
-    Assertions.assertThrows(ServiceException.class, () -> {
+    Assertions.assertThrows(DataNotFoundException.class, () -> {
       employeeService.create(dto);
     });
 

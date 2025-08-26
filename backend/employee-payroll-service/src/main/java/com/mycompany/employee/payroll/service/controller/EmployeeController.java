@@ -1,6 +1,9 @@
 package com.mycompany.employee.payroll.service.controller;
 
 import com.mycompany.employee.payroll.service.dto.EmployeeDto;
+import com.mycompany.employee.payroll.service.exception.BaseServiceException;
+import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
+import com.mycompany.employee.payroll.service.response.EmployeeResponse;
 import com.mycompany.employee.payroll.service.service.EmployeeService;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
 import org.hibernate.service.spi.ServiceException;
@@ -22,10 +25,11 @@ public class EmployeeController {
     this.employeeService = employeeService;
   }
 
-  @PostMapping("/create")
-  public ResponseEntity<EmployeeVo> create(@Validated @RequestBody EmployeeDto dto)
-      throws ServiceException {
-    return new ResponseEntity<>(employeeService.create(dto), HttpStatus.CREATED);
-  }
+  @PostMapping
+  public ResponseEntity<EmployeeResponse> create(@Validated @RequestBody EmployeeDto dto)
+      throws BaseServiceException {
+    EmployeeVo vo = employeeService.create(dto);
+    EmployeeResponse response = new EmployeeResponse(vo, "Employee created successfully");
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);  }
 
 }

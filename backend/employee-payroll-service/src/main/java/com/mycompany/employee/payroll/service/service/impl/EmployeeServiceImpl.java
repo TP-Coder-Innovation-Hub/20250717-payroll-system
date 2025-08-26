@@ -6,11 +6,12 @@ import com.mycompany.employee.payroll.service.dto.EmployeeDto;
 import com.mycompany.employee.payroll.service.entity.Employee;
 import com.mycompany.employee.payroll.service.entity.Factory;
 import com.mycompany.employee.payroll.service.enums.EmployeeStatusEnum;
+import com.mycompany.employee.payroll.service.exception.BaseServiceException;
+import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.mapper.EmployeeMapper;
 import com.mycompany.employee.payroll.service.service.EmployeeService;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,17 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public EmployeeVo create(EmployeeDto dto) throws ServiceException {
+  public EmployeeVo create(EmployeeDto dto) throws BaseServiceException {
 
     log.info("Received EmployeeDto: {}", dto);
 
     Employee entity = employeeMapper.dtoToEntity(dto);
     entity.setStatus(EmployeeStatusEnum.ACTIVE);
 
-    Factory factory = factoryDao.findById(dto.factoryId());
-    if (factory == null) {
-      throw new ServiceException("Factory not found for ID: " + dto.factoryId());
-    }
+    Factory factory = factoryDao.findById(dto.factoryId())
+        .orElseThrow(
+            () -> new DataNotFoundException("Factory not found with id " + dto.factoryId()));
+
     entity.setFactory(factory);
     employeeDao.save(entity);
 

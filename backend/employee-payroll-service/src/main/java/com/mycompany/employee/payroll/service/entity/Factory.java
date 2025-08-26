@@ -10,7 +10,7 @@ import lombok.Setter;
 @Table(name = "factory")
 @Getter
 @Setter
-public class Factory extends BaseEntity{
+public class Factory extends BaseEntity {
 
   @Column(name = "factory_code")
   private String factoryCode;

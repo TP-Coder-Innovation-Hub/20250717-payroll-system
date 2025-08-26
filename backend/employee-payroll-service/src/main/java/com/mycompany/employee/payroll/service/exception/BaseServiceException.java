@@ -3,7 +3,7 @@ package com.mycompany.employee.payroll.service.exception;
 import lombok.Getter;
 
 @Getter
-public class BaseServiceException extends RuntimeException {
+public abstract class BaseServiceException extends RuntimeException {
 
   private final String errorCode;
 

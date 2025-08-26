@@ -1,7 +1,7 @@
 package com.mycompany.employee.payroll.service.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,18 +10,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends RuntimeException {
 
-  @ExceptionHandler(DataEmptyException.class)
-  public ResponseEntity<Map<String, Object>> handleDataEmptyException(DataEmptyException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-        Map.of("timestamp", Instant.now(), "status", HttpStatus.BAD_REQUEST.value(), "error",
-            ex.getErrorCode(), "message", ex.getMessage()));
+  @ExceptionHandler(DataNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleNotFound(
+      DataNotFoundException ex, HttpServletRequest req) {
+    HttpStatus status = HttpStatus.NOT_FOUND; // 404
+    return ResponseEntity.status(status).body(
+        new ErrorResponse(
+            Instant.now(),
+            status.value(),
+            status.getReasonPhrase(),
+            ex.getMessage(),
+            ex.getErrorCode(),
+            req.getRequestURI()
+        )
+    );
   }
 
-  @ExceptionHandler(BaseServiceException.class)
-  public ResponseEntity<Map<String, Object>> handleBaseServiceException(BaseServiceException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-        Map.of("timestamp", Instant.now(), "status", HttpStatus.BAD_REQUEST.value(), "error",
-            ex.getErrorCode(), "message", ex.getMessage()));
+  public record ErrorResponse(Instant timestamp, int status, String error, String message,
+                              String errorCode,
+                              String path) {
+
   }
-  
+
 }
