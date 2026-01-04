@@ -1,17 +1,21 @@
 package com.mycompany.employee.payroll.service.service.impl;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.mycompany.employee.payroll.service.dao.EmployeeDao;
+import com.mycompany.employee.payroll.service.dao.EmployeePayRateDao;
 import com.mycompany.employee.payroll.service.dao.FactoryDao;
 import com.mycompany.employee.payroll.service.dto.EmployeeDto;
 import com.mycompany.employee.payroll.service.entity.Employee;
+import com.mycompany.employee.payroll.service.entity.EmployeePayRate;
 import com.mycompany.employee.payroll.service.entity.Factory;
 import com.mycompany.employee.payroll.service.enums.EmployeeStatusEnum;
 import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.mapper.EmployeeMapper;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -36,18 +40,23 @@ public class EmployeeServiceImplTest {
   @Mock
   private FactoryDao factoryDao;
 
+  @Mock
+  private EmployeePayRateDao employeePayRateDao;
+
   @Test
   void create_Employee_Should_Success() {
 
     // arrange
     final String factoryId = UUID.randomUUID().toString();
-    var dto = new EmployeeDto("John", "Engineer", factoryId);
+    var dto = new EmployeeDto("John", "Engineer", factoryId, BigDecimal.valueOf(500));
     var entity = new Employee();
+    entity.setId(UUID.randomUUID().toString());
     var factory = new Factory();
-    var vo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01");
+    var vo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01", BigDecimal.valueOf(500));
 
     when(employeeMapper.dtoToEntity(dto)).thenReturn(entity);
     when(factoryDao.findById(factoryId)).thenReturn(Optional.of(factory));
+    when(employeeDao.save(entity)).thenReturn(entity);
     when(employeeMapper.entityToVo(entity)).thenReturn(vo);
 
     // act
@@ -61,13 +70,14 @@ public class EmployeeServiceImplTest {
     verify(employeeMapper).dtoToEntity(dto);
     verify(factoryDao).findById(factoryId);
     verify(employeeDao).save(entity);
+    verify(employeePayRateDao).save(any(EmployeePayRate.class));
     verify(employeeMapper).entityToVo(entity);
   }
 
   @Test
   void create_ShouldThrowServiceException_WhenFactoryNotFound() {
     // Arrange
-    var dto = new EmployeeDto("John", "Engineer", "invalid-factory-id");
+    var dto = new EmployeeDto("John", "Engineer", "invalid-factory-id", BigDecimal.valueOf(500));
     var entity = new Employee();
 
     when(employeeMapper.dtoToEntity(dto)).thenReturn(entity);

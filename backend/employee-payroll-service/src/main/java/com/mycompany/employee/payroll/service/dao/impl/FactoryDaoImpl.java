@@ -2,9 +2,7 @@ package com.mycompany.employee.payroll.service.dao.impl;
 
 import com.mycompany.employee.payroll.service.dao.FactoryDao;
 import com.mycompany.employee.payroll.service.entity.Factory;
-import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.repository.FactoryRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

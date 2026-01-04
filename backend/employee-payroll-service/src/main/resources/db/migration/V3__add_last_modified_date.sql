@@ -1,0 +1,2 @@
+ALTER TABLE employee_pay_rate
+    ADD COLUMN last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

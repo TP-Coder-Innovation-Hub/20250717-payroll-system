@@ -4,6 +4,6 @@ import com.mycompany.employee.payroll.service.entity.Employee;
 
 public interface EmployeeDao {
 
-  void save(Employee entity);
+  Employee save(Employee entity);
 
 }

@@ -15,7 +15,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
   }
 
   @Override
-  public void save(Employee entity) {
-    repository.save(entity);
+  public Employee save(Employee entity) {
+    return repository.save(entity);
   }
+
 }

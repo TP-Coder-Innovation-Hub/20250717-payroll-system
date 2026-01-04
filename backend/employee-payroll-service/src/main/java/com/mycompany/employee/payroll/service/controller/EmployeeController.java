@@ -2,11 +2,9 @@ package com.mycompany.employee.payroll.service.controller;
 
 import com.mycompany.employee.payroll.service.dto.EmployeeDto;
 import com.mycompany.employee.payroll.service.exception.BaseServiceException;
-import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.response.EmployeeResponse;
 import com.mycompany.employee.payroll.service.service.EmployeeService;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +28,7 @@ public class EmployeeController {
       throws BaseServiceException {
     EmployeeVo vo = employeeService.create(dto);
     EmployeeResponse response = new EmployeeResponse(vo, "Employee created successfully");
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);  }
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
 
 }
