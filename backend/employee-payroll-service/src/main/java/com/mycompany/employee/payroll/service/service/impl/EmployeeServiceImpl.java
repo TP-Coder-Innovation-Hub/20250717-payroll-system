@@ -14,6 +14,7 @@ import com.mycompany.employee.payroll.service.mapper.EmployeeMapper;
 import com.mycompany.employee.payroll.service.service.EmployeeService;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
 import java.time.Instant;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeVo response = employeeMapper.entityToVo(entity);
     response.setPayRate(dto.payRate());
     return response;
+  }
+
+  @Override
+  public List<EmployeeVo> getAll() {
+    log.info("Getting all employees");
+
+    List<Employee> activeEmployees = employeeDao.findAll(EmployeeStatusEnum.ACTIVE);
+
+    if (activeEmployees.isEmpty()) {
+      throw new DataNotFoundException("No employees found");
+    } else {
+      return employeeMapper.entityListToVoList(activeEmployees);
+    }
+
   }
 
 
