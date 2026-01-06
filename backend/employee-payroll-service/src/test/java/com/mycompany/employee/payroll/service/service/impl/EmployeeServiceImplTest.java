@@ -16,6 +16,7 @@ import com.mycompany.employee.payroll.service.exception.DataNotFoundException;
 import com.mycompany.employee.payroll.service.mapper.EmployeeMapper;
 import com.mycompany.employee.payroll.service.vo.EmployeeVo;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +27,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class EmployeeServiceImplTest {
+public class
+EmployeeServiceImplTest {
 
   @InjectMocks
   private EmployeeServiceImpl employeeService;
@@ -91,4 +93,34 @@ public class EmployeeServiceImplTest {
     verify(factoryDao).findById("invalid-factory-id");
   }
 
+  @Test
+  void getAll_Should_ReturnListOfEmployeeVo_WhenEmployeesExist() {
+    // Arrange
+    var employee = new Employee();
+    var employees = List.of(employee);
+    var employeeVo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01", BigDecimal.valueOf(500));
+    var employeeVos = List.of(employeeVo);
+
+    when(employeeDao.findAll(EmployeeStatusEnum.ACTIVE)).thenReturn(employees);
+    when(employeeMapper.entityListToVoList(employees)).thenReturn(employeeVos);
+
+    // Act
+    var result = employeeService.getAll();
+
+    // Assert
+    Assertions.assertNotNull(result);
+    Assertions.assertEquals(1, result.size());
+    verify(employeeDao).findAll(EmployeeStatusEnum.ACTIVE);
+    verify(employeeMapper).entityListToVoList(employees);
+  }
+
+  @Test
+  void getAll_Should_ThrowDataNotFoundException_WhenNoEmployeesExist() {
+    // Arrange
+    when(employeeDao.findAll(EmployeeStatusEnum.ACTIVE)).thenReturn(List.of());
+
+    // Act & Assert
+    Assertions.assertThrows(DataNotFoundException.class, () -> employeeService.getAll());
+    verify(employeeDao).findAll(EmployeeStatusEnum.ACTIVE);
+  }
 }
