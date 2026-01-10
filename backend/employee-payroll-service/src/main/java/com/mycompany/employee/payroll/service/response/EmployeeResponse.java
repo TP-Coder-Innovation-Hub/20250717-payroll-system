@@ -10,6 +10,7 @@ public class EmployeeResponse {
   private final EmployeeVo data;
   private final String message;
   private final Instant timestamp = Instant.now();
+
   public EmployeeResponse(EmployeeVo data, String message) {
     this.data = data;
     this.message = message;

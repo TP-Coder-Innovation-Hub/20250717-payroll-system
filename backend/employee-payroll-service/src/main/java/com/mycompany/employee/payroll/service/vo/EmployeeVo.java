@@ -1,6 +1,7 @@
 package com.mycompany.employee.payroll.service.vo;
 
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,5 +18,7 @@ public class EmployeeVo {
   private String status;
 
   private String factoryName;
+
+  private BigDecimal payRate;
 
 }
