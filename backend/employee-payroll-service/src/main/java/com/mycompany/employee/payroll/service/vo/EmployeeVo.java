@@ -1,7 +1,6 @@
 package com.mycompany.employee.payroll.service.vo;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +19,6 @@ public class EmployeeVo {
 
   private String factoryName;
 
-  @JsonIgnore
   private BigDecimal payRate;
 
 }

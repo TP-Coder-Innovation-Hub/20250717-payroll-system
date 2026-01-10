@@ -59,6 +59,7 @@ class EmployeeServiceImplTest {
     when(factoryDao.findById(factoryId)).thenReturn(Optional.of(factory));
     when(employeeDao.save(entity)).thenReturn(entity);
     when(employeeMapper.entityToVo(entity)).thenReturn(vo);
+    when(employeePayRateDao.save(any(EmployeePayRate.class))).thenReturn(new EmployeePayRate());
 
     // act
     EmployeeVo result = employeeService.create(dto);
@@ -114,12 +115,12 @@ class EmployeeServiceImplTest {
   }
 
   @Test
-  void getAll_Should_ThrowDataNotFoundException_WhenNoEmployeesExist() {
+  void getAll_Should_ReturnEmptyList_WhenNoEmployeesExist() {
     // Arrange
     when(employeeDao.findAll(EmployeeStatusEnum.ACTIVE)).thenReturn(List.of());
 
     // Act & Assert
-    Assertions.assertThrows(DataNotFoundException.class, () -> employeeService.getAll());
+    Assertions.assertTrue(employeeService.getAll().isEmpty());
     verify(employeeDao).findAll(EmployeeStatusEnum.ACTIVE);
   }
 }

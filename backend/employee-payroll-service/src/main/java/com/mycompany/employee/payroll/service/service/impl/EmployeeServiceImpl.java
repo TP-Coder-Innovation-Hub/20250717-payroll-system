@@ -46,9 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     Employee entity = employeeMapper.dtoToEntity(dto);
     entity.setStatus(EmployeeStatusEnum.ACTIVE);
 
-    Factory factory = factoryDao.findById(dto.factoryId())
-        .orElseThrow(
-            () -> new DataNotFoundException("Factory not found with id " + dto.factoryId()));
+    Factory factory = factoryDao.findById(dto.factoryId()).orElseThrow(
+        () -> new DataNotFoundException("Factory not found with id " + dto.factoryId()));
 
     entity.setFactory(factory);
     entity = employeeDao.save(entity);
@@ -59,10 +58,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeePayRate.setPayRate(dto.payRate());
     employeePayRate.setEffectiveStart(Instant.now());
     employeePayRate.setEffectiveEnd(null);
-    employeePayRateDao.save(employeePayRate);
+    employeePayRate = employeePayRateDao.save(employeePayRate);
 
     EmployeeVo response = employeeMapper.entityToVo(entity);
-    response.setPayRate(dto.payRate());
+    response.setPayRate(employeePayRate.getPayRate());
     return response;
   }
 
@@ -71,12 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     log.info("Getting all employees");
 
     List<Employee> activeEmployees = employeeDao.findAll(EmployeeStatusEnum.ACTIVE);
-
-    if (activeEmployees.isEmpty()) {
-      throw new DataNotFoundException("No employees found");
-    } else {
-      return employeeMapper.entityListToVoList(activeEmployees);
-    }
+    return employeeMapper.entityListToVoList(activeEmployees);
 
   }
 
