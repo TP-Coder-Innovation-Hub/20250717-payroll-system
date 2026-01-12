@@ -53,7 +53,8 @@ class EmployeeServiceImplTest {
     var entity = new Employee();
     entity.setId(UUID.randomUUID().toString());
     var factory = new Factory();
-    var vo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01", BigDecimal.valueOf(500));
+    var vo = new EmployeeVo(UUID.randomUUID().toString(), "John", "Engineer", "ACTIVE", "F-01",
+        BigDecimal.valueOf(500));
 
     when(employeeMapper.dtoToEntity(dto)).thenReturn(entity);
     when(factoryDao.findById(factoryId)).thenReturn(Optional.of(factory));
@@ -98,7 +99,8 @@ class EmployeeServiceImplTest {
     // Arrange
     var employee = new Employee();
     var employees = List.of(employee);
-    var employeeVo = new EmployeeVo("John", "Engineer", "ACTIVE", "F-01", BigDecimal.valueOf(500));
+    var employeeVo = new EmployeeVo(UUID.randomUUID().toString(), "John", "Engineer", "ACTIVE",
+        "F-01", BigDecimal.valueOf(500));
     var employeeVos = List.of(employeeVo);
 
     when(employeeDao.findAll(EmployeeStatusEnum.ACTIVE)).thenReturn(employees);
